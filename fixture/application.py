@@ -7,10 +7,26 @@ class Application:
         self.wd = WebDriver()
         self.wd.implicitly_wait(30)
 
+# LOGIN\LOGOUT
     def logout(self):
         wd = self.wd
         wd.find_element(By.LINK_TEXT, "Logout").click()
 
+    def login(self, username, password):
+        wd = self.wd
+        self.open_home_page()
+        wd.find_element(By.NAME, "user").click()
+        wd.find_element(By.NAME, "user").clear()
+        wd.find_element(By.NAME, "user").send_keys(username)
+        wd.find_element(By.NAME, "pass").clear()
+        wd.find_element(By.NAME, "pass").send_keys(password)
+        wd.find_element(By.XPATH, "//input[@value='Login']").click()
+
+    def open_home_page(self):
+        wd = self.wd
+        wd.get("http://localhost/addressbook/group.php")
+
+# GROUPS
     def return_to_groups_page(self):
         wd = self.wd
         wd.find_element(By.LINK_TEXT, "group page").click()
@@ -38,6 +54,7 @@ class Application:
         wd = self.wd
         wd.find_element(By.LINK_TEXT, "groups").click()
 
+# CONTACTS
     def return_to_home_page(self):
         wd = self.wd
         wd.find_element(By.LINK_TEXT, "home page").click()
@@ -84,20 +101,6 @@ class Application:
         # submit_group_creation
         wd.find_element(By.XPATH, "//div[@id='content']/form/input[21]").click()
         self.return_to_home_page()
-
-    def login(self, username, password):
-        wd = self.wd
-        self.open_home_page()
-        wd.find_element(By.NAME, "user").click()
-        wd.find_element(By.NAME, "user").clear()
-        wd.find_element(By.NAME, "user").send_keys(username)
-        wd.find_element(By.NAME, "pass").clear()
-        wd.find_element(By.NAME, "pass").send_keys(password)
-        wd.find_element(By.XPATH, "//input[@value='Login']").click()
-
-    def open_home_page(self):
-        wd = self.wd
-        wd.get("http://localhost/addressbook/group.php")
 
     def destroy(self):
         self.wd.quit()
