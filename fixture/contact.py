@@ -10,9 +10,9 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element(By.LINK_TEXT, "home page").click()
 
-    def create(self, contact):
+    def create_contact(self, contact):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.open_contact_page()
         # init_contact_creation
         wd.find_element(By.LINK_TEXT, "add new").click()
         # fill_contact_form
@@ -52,3 +52,7 @@ class ContactHelper:
         # submit_group_creation
         wd.find_element(By.XPATH, "//div[@id='content']/form/input[21]").click()
         self.return_to_home_page()
+
+    def open_contact_page(self):
+        wd = self.app.wd
+        wd.find_element(By.LINK_TEXT, "home").click()
