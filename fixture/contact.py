@@ -68,4 +68,6 @@ class ContactHelper:
 
     def open_contact_page(self):
         wd = self.app.wd
+        if wd.current_url.endswith("/addressbook/"):
+            return
         wd.find_element(By.LINK_TEXT, "home").click()
