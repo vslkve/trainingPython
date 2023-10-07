@@ -6,6 +6,11 @@ class ContactHelper:
     def __init__(self, app):
         self.app = app
 
+    def count(self):
+        wd = self.app.wd
+        self.open_contact_page()
+        return len(wd.find_elements(By.NAME, 'selected[]'))
+
     def return_to_home_page(self):
         wd = self.app.wd
         wd.find_element(By.LINK_TEXT, "home page").click()
