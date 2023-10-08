@@ -1,10 +1,25 @@
 from selenium.webdriver.common.by import By
+from model.contact import Contact
+import time
 
 
 class ContactHelper:
 
     def __init__(self, app):
         self.app = app
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        time.sleep(1)
+        self.open_contact_page()
+        contact_list = []
+        for element in wd.find_elements(By.NAME, "entry"):
+            dom = element.find_elements(By.TAG_NAME, "td")
+            lastname = dom[1].text
+            firstname = dom[2].text
+            id = dom[0].find_element(By.TAG_NAME, "input").get_attribute("value")
+            contact_list.append(Contact(lastname=lastname, firstname=firstname, id=id))
+        return contact_list
 
     def count(self):
         wd = self.app.wd
