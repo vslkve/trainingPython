@@ -7,15 +7,18 @@ class GroupHelper:
     def __init__(self, app):
         self.app = app
 
+    group_cache = None
+
     def get_group_list(self):
-        wd = self.app.wd
-        self.open_groups_page()
-        group_list = []
-        for element in wd.find_elements(By.CSS_SELECTOR, "span.group"):
-            text = element.text
-            id = element.find_element(By.NAME, "selected[]").get_attribute("value")
-            group_list.append(Group(name=text, id=id))
-        return group_list
+        if self.group_cache is None:
+            wd = self.app.wd
+            self.open_groups_page()
+            self.group_cache = []
+            for element in wd.find_elements(By.CSS_SELECTOR, "span.group"):
+                text = element.text
+                id = element.find_element(By.NAME, "selected[]").get_attribute("value")
+                self.group_cache.append(Group(name=text, id=id))
+        return list(self.group_cache)
 
     def count(self):
         wd = self.app.wd
@@ -29,6 +32,7 @@ class GroupHelper:
         # submit deletion
         wd.find_element(By.NAME, "delete").click()
         self.return_to_groups_page()
+        self.group_cache = None
 
     def edit_first_group(self, group):
         wd = self.app.wd
@@ -39,14 +43,7 @@ class GroupHelper:
         # submit_group_edition
         wd.find_element(By.NAME, "update").click()
         self.return_to_groups_page()
-
-    def select_first_group(self):
-        wd = self.app.wd
-        wd.find_element(By.NAME, "selected[]").click()
-
-    def return_to_groups_page(self):
-        wd = self.app.wd
-        wd.find_element(By.LINK_TEXT, "group page").click()
+        self.group_cache = None
 
     def create(self, group):
         wd = self.app.wd
@@ -57,6 +54,15 @@ class GroupHelper:
         # submit_group_creation
         wd.find_element(By.NAME, "submit").click()
         self.return_to_groups_page()
+        self.group_cache = None
+
+    def select_first_group(self):
+        wd = self.app.wd
+        wd.find_element(By.NAME, "selected[]").click()
+
+    def return_to_groups_page(self):
+        wd = self.app.wd
+        wd.find_element(By.LINK_TEXT, "group page").click()
 
     def fill_group_form(self, group):
         wd = self.app.wd
