@@ -6,10 +6,12 @@ from random import randrange
 def test_edit_first_contact(app):
     if app.contact.count() == 0:
         app.contact.create_contact(
-            Contact("Kat", "Al", "GV", "vs", "ascss", "comp", "Kzn", "hm", "765756765", "5675", "e@m.com"))
+            Contact("Kat", "Al", "GV", "vs", "ascss", "comp",
+                    "Kzn", "4544", "765756765", "5675", "9445", "e@m.com"))
     old_contact = app.contact.get_contact_list()
     index = randrange(len(old_contact))
-    contact = Contact("Kkk", "Aaa", "Ggg", "vvvv", "aaaa", "cccc", "ZZZ", "hhhh", "1111", "222", "em@ma.ru")
+    contact = Contact("Kkk", "Aaa", "Ggg", "vvvv", "aaaa", "cccc",
+                      "ZZZ", "321", "1111", "222", "09809", "em@ma.ru")
     contact.id = old_contact[index].id
     app.contact.edit_contact_by_index(index, contact)
     assert len(old_contact) == app.contact.count()
