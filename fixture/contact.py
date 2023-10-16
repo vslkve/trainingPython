@@ -22,10 +22,9 @@ class ContactHelper:
                 lastname = dom[1].text
                 firstname = dom[2].text
                 id = dom[0].find_element(By.TAG_NAME, "input").get_attribute("value")
-                all_phones = dom[5].text.splitlines()
+                all_phones = dom[5].text
                 self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id,
-                                                  homephone=all_phones[0], mobilephone=all_phones[1],
-                                                  workphone=all_phones[2], secondaryphone=all_phones[3]))
+                                                  all_phones_from_homepage=all_phones))
         return list(self.contact_cache)
 
     def get_contact_info_from_edit_page(self, index):
