@@ -23,8 +23,11 @@ class ContactHelper:
                 firstname = dom[2].text
                 id = dom[0].find_element(By.TAG_NAME, "input").get_attribute("value")
                 all_phones = dom[5].text
+                address = dom[3].text
+                all_emails = dom[4].text
                 self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id,
-                                                  all_phones_from_homepage=all_phones))
+                                                  all_phones_from_homepage=all_phones, address=address,
+                                                  all_emails_from_homepage=all_emails))
         return list(self.contact_cache)
 
     def get_contact_info_from_edit_page(self, index):
@@ -37,8 +40,13 @@ class ContactHelper:
         mobilephone = wd.find_element(By.NAME, "mobile").get_attribute("value")
         workphone = wd.find_element(By.NAME, "work").get_attribute("value")
         secondaryphone = wd.find_element(By.NAME, "phone2").get_attribute("value")
+        address = wd.find_element(By.NAME, "address").text
+        email1 = wd.find_element(By.NAME, "email").get_attribute("value")
+        email2 = wd.find_element(By.NAME, "email2").get_attribute("value")
+        email3 = wd.find_element(By.NAME, "email3").get_attribute("value")
         return Contact(firstname=firstname, lastname=lastname, id=id, homephone=homephone, mobilephone=mobilephone,
-                       workphone=workphone, secondaryphone=secondaryphone)
+                       workphone=workphone, secondaryphone=secondaryphone, address=address,
+                       email=email1, email2=email2, email3=email3)
 
     def get_contact_from_view_page(self, index):
         wd = self.app.wd
@@ -50,7 +58,6 @@ class ContactHelper:
         secondaryphone = re.search("P: (.*)", text).group(1)
         return Contact(homephone=homephone, mobilephone=mobilephone,
                        workphone=workphone, secondaryphone=secondaryphone)
-
 
     def count(self):
         wd = self.app.wd
