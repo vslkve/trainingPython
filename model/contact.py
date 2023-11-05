@@ -25,11 +25,14 @@ class Contact:
         self.all_emails_from_homepage = all_emails_from_homepage
 
     def __repr__(self):
-        return "%s:%s:%s" % (self.id, self.lastname, self.firstname)
+        return "%s:%s:%s:%s" % (self.id, self.lastname, self.firstname, self.address)
 
     def __eq__(self, other):
         return ((self.id is None or other.id is None or self.id == other.id) and
-                self.lastname == other.lastname and self.firstname == other.firstname)
+                self.lastname == other.lastname and self.firstname == other.firstname and self.address == other.address,
+                self.homephone == other.homephone, self.workphone == other.work_phone,
+                self.mobilephone == other.mobilephone, self.secondaryphone == other.secondaryphone,
+                self.email == other.email, self.email2 == other.email2, self.email3 == other.email3)
 
     def id_or_max(self):
         if self.id:
