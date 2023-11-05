@@ -1,32 +1,22 @@
 # -*- coding: utf-8 -*-
 from model.contact import Contact
-from random import randrange
+import random
 
 
-def test_edit_first_contact(app):
-    if app.contact.count() == 0:
+def test_edit_contact_lastname_by_id(app, db, check_ui):
+    if len(db.get_contact_list()) == 0:
         app.contact.create_contact(
             Contact(firstname="Kat", middlename="Al", lastname="GV", nickname="vs", title="ascss",
                     company="comp", address="Kzn", homephone="66675666", mobilephone="765756765", workphone="5675",
                     secondaryphone="321123", email="e@m.com"))
-    old_contact = app.contact.get_contact_list()
-    index = randrange(len(old_contact))
-    contact = Contact(firstname="FD", middlename="Add", lastname="GvdV", nickname="vssdd", title="adfefs",
-                      company="comdwp", address="KznMS", homephone="676575666", mobilephone="75355", workphone="5531675",
-                      secondaryphone="3753", email="ecsc@m.com")
-    contact.id = old_contact[index].id
-    app.contact.edit_contact_by_index(index, contact)
-    assert len(old_contact) == app.contact.count()
-    new_contact = app.contact.get_contact_list()
-    old_contact[index] = contact
+    old_contact = db.get_contact_list()
+    contact = random.choice(old_contact)
+    contact.lastname = "NewLastname"
+    app.contact.edit_contact_by_id(contact.id, contact)
+    new_contact = db.get_contact_list()
+    for i in (0, len(old_contact) - 1):
+        if old_contact[i].id == contact.id:
+            old_contact[i].firstname = "NewLastname"
     assert sorted(old_contact, key=Contact.id_or_max) == sorted(new_contact, key=Contact.id_or_max)
-
-
-# def test_edit_name_by_first_contact(app):
-#     if app.contact.count() == 0:
-#         app.contact.create_contact(
-#             Contact("Kat", "Al", "GV", "vs", "ascss", "comp", "Kzn", "hm", "765756765", "5675", "e@m.com"))
-#     old_contact = app.contact.get_contact_list()
-#     app.contact.edit_first_contact(Contact(firstname="New", middlename="New", lastname="New"))
-#     new_contact = app.contact.get_contact_list()
-#     assert len(old_contact) == len(new_contact)
+    if check_ui:
+        assert sorted(new_contact, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
