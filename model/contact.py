@@ -30,7 +30,7 @@ class Contact:
     def __eq__(self, other):
         return ((self.id is None or other.id is None or self.id == other.id) and
                 self.lastname == other.lastname and self.firstname == other.firstname and self.address == other.address,
-                self.homephone == other.homephone, self.workphone == other.work_phone,
+                self.homephone == other.homephone, self.workphone == other.workphone,
                 self.mobilephone == other.mobilephone, self.secondaryphone == other.secondaryphone,
                 self.email == other.email, self.email2 == other.email2, self.email3 == other.email3)
 
