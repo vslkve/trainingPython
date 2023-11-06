@@ -30,6 +30,28 @@ class ContactHelper:
                                                   all_emails_from_homepage=all_emails))
         return list(self.contact_cache)
 
+    def add_contact_to_group_by_id(self, contact, group):
+        wd = self.app.wd
+        self.app.open_home_page()
+        self.select_contact_by_id(contact)
+        wd.find_element(By.NAME, "to_group").click()
+        wd.find_element(By.XPATH, "//div[@id='content']/form[2]/div[4]/select/option[@value='%s']" % group).click()
+        wd.find_element(By.NAME, "add").click()
+        # переходим на страницу контактов, которые относятся к выбранно группе
+        wd.find_element(By.XPATH, "//i/a").click()
+        self.contact_cache = None
+
+    def delete_contact_from_group_by_id(self, contact, group):
+        wd = self.app.wd
+        self.app.open_home_page()
+        wd.find_element(By.NAME, "group").click()
+        wd.find_element(By.XPATH, "//option[@value='%s']" % group).click()
+        self.select_contact_by_id(contact)
+        wd.find_element(By.NAME, "remove").click()
+        # переходим на страницу контактов, которые относятся к выбранно группе
+        wd.find_element(By.XPATH, "//i/a").click()
+        self.contact_cache = None
+
     def get_contact_info_from_edit_page(self, index):
         wd = self.app.wd
         self.open_contact_to_edit_by_index(index)
