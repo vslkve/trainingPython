@@ -16,7 +16,7 @@ def test_edit_contact_lastname_by_id(app, db, check_ui):
     new_contact = db.get_contact_list()
     for i in (0, len(old_contact) - 1):
         if old_contact[i].id == contact.id:
-            old_contact[i].firstname = "NewLastname"
+            old_contact[i].lastname = "NewLastname"
     assert sorted(old_contact, key=Contact.id_or_max) == sorted(new_contact, key=Contact.id_or_max)
     if check_ui:
         assert sorted(new_contact, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
